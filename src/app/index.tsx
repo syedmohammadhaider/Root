@@ -1,0 +1,169 @@
+import { Picker } from '@react-native-picker/picker';
+import { useRouter } from 'expo-router';
+import { useState } from "react";
+import { Keyboard, ToastAndroid, TouchableWithoutFeedback, View } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import IconButton from "../components/IconButton";
+import Text from "../components/Text";
+import TimeSelect from "../components/TimeSelect";
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTheme } from "../contexts/ThemeContext";
+import { themes } from "../theme";
+
+export default function Index() {
+  const { theme } = useTheme(); 
+
+  const [ hours, setHours ] = useState<number>(0); 
+  const [ minutes, setMinutes ] = useState<number>(45); 
+  const [ seconds, setSeconds ] = useState<number>(0); 
+  const [ restMinutes, setRestMinutes ] = useState<number>(5);
+  const [ restSeconds, setRestSeconds ] = useState<number>(0);  
+  const [ timerMode, setTimerMode ] = useState<'classic'|'pomodoro'|'infinity'>('classic'); 
+
+  const router = useRouter(); 
+
+  const handleStart = () => {
+    let totalDurationInSeconds = hours*3600 + minutes*60 + seconds; 
+    let totalRestDurationInSeconds = restMinutes*60 + restSeconds; 
+
+    if (totalDurationInSeconds <= 0) {
+      ToastAndroid.showWithGravity("Invalid duration!", ToastAndroid.SHORT, ToastAndroid.BOTTOM); 
+      return; 
+    }
+
+    router.navigate({
+      pathname: '/timer', 
+      params: {
+        duration: totalDurationInSeconds,
+        rest: totalRestDurationInSeconds,
+        mode: timerMode,
+      }
+    }); 
+  };
+  
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          alignItems: "center",
+          backgroundColor: theme.background
+        }}
+      >
+        <View style={{
+          paddingVertical: 5, 
+        }}>
+          <Text weight="bold" style={{
+            fontSize: themes.fonts.sizes.heading
+          }}>
+            root
+          </Text>
+
+          <IconButton iconName='arrow-right' type='primary' onPress={() => router.push('/stats')}/>
+        </View>
+
+        <View style={{
+          flex: 1, 
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 20,
+        }}>
+          <View
+            style={{
+              width: 150,
+              backgroundColor: theme.cardBg,
+              borderRadius: themes.spacing.borderRadius,
+            }}
+          >
+            <Picker
+              selectedValue={timerMode}
+              onValueChange={(itemValue, itemIndex) => setTimerMode(itemValue)}
+              mode='dialog'
+              dropdownIconColor={theme.text}
+              style={{
+                color: theme.text,
+              }}
+            >
+              <Picker.Item label="Classic" value="classic" style={{ fontFamily: themes.fonts.body }} />
+              <Picker.Item label="Pomodoro" value="pomodoro" style={{ fontFamily: themes.fonts.body }} />
+              <Picker.Item label="Infinity" value="infinity" style={{ fontFamily: themes.fonts.body }} />
+            </Picker>
+          </View>
+
+            {(timerMode !== 'infinity') && (<View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 15
+              }}
+            >
+              <TimeSelect 
+                chosenTime={hours}
+                maxValue={12}
+                onUpdate={setHours}
+              />
+
+              <Text weight='bold' style={{ fontSize: themes.fonts.sizes.heading }}>:</Text>
+
+              <TimeSelect 
+                chosenTime={minutes}
+                onUpdate={setMinutes}
+              />
+
+              <Text weight='bold' style={{ fontSize: themes.fonts.sizes.heading }}>:</Text>
+              
+              <TimeSelect 
+                chosenTime={seconds}
+                onUpdate={setSeconds}
+              />
+
+              {/* <Text weight='bold' style={{ fontSize: themes.fonts.sizes.heading }}>m</Text> */}
+            </View>)}
+
+            {(timerMode === 'pomodoro') && (<View style={{
+              flexDirection: 'row', 
+              justifyContent: 'center',
+            }}>
+              <TimeSelect
+                chosenTime={5}
+                maxValue={59}
+                onUpdate={setRestMinutes}
+                size='small'
+              />
+
+              <Text weight='bold' style={{ fontSize: themes.fonts.sizes.subHeading}}> : </Text>
+
+              <TimeSelect
+                chosenTime={0}
+                maxValue={59}
+                onUpdate={setRestSeconds}
+                size='small'
+              />
+            </View>)}
+
+            {(timerMode === 'infinity') && 
+              (
+                <View>
+                  <MaterialCommunityIcons name='infinity' size={72} color={theme.text} />
+                </View>
+              )
+            }
+
+            <IconButton 
+              iconName="play" 
+              type="primary" 
+              onPress={handleStart}
+            />
+        </View>
+        
+        <View>
+          <Text style={{ opacity: 0.5, }}>
+            Swipe up for logs and statistics
+          </Text>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
+  );
+}
