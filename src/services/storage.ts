@@ -26,6 +26,7 @@ export const saveData = async (data: Session, onError?: (e: unknown) => void, ke
 
     try {
         await AsyncStorage.setItem(key, JSON.stringify(newData)); 
+        console.log("Data saved successfully: \n", data); 
     } catch (e) {
         onError && onError(e); 
     }

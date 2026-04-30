@@ -1,6 +1,8 @@
+import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import HeaderIconButton from '../components/HeaderIconButton';
 import Text from '../components/Text';
 import { useTheme } from '../contexts/ThemeContext';
 import { loadData } from '../services/storage';
@@ -40,24 +42,28 @@ function LogCard({ mode, completedDuration, totalDuration, timestamp }: {
                 >
                     {formatTime(completedDuration)}
                 </Text>
-                <Text>
-                    / {formatTime(totalDuration)}
-                </Text>
+                {mode !== 'infinity' && (
+                    <Text>
+                        / {formatTime(totalDuration)}
+                    </Text>
+                )}
             </View>
 
             <View style={{
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
-                <Text
-                    weight='bold'
-                    style={{ 
-                        fontSize: themes.fonts.sizes.subHeading, 
-                        opacity: 0.5,
-                    }}
-                >
-                    {(completedDuration / totalDuration * 100).toFixed(2)}%
-                </Text>
+                {mode !== 'infinity' && (
+                    <Text
+                        weight='bold'
+                        style={{ 
+                            fontSize: themes.fonts.sizes.subHeading, 
+                            opacity: 0.5,
+                        }}
+                    >
+                        {(completedDuration / totalDuration * 100).toFixed(2)}%
+                    </Text>
+                )}
 
                 <Text>{new Date(timestamp).toLocaleDateString()}</Text>
             </View>
@@ -77,6 +83,9 @@ export default function Stats() {
         return `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
     }
 
+
+    const router = useRouter(); 
+
     useEffect(() => {
         const fetchData = async () => {
             const data = await loadData();
@@ -92,6 +101,23 @@ export default function Stats() {
                 backgroundColor: theme.background
             }}
         >
+
+            <HeaderIconButton
+                icon="arrow-left"
+                style={{
+                    position: 'absolute',
+                    top: 35,
+                    left: 15,
+                    zIndex: 1,
+                    backgroundColor: theme.background, 
+                    borderWidth: 1, 
+                    borderColor: theme.cardBg, 
+                    borderRadius: 50, 
+                    padding: 10, 
+                }}
+                onPress={() => router.canGoBack() && router.back()}
+            />
+            
             <ScrollView
                 style={{
                     width: '100%',

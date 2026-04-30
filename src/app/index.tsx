@@ -9,6 +9,7 @@ import Text from "../components/Text";
 import TimeSelect from "../components/TimeSelect";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import HeaderIconButton from '../components/HeaderIconButton';
 import { useTheme } from "../contexts/ThemeContext";
 import { themes } from "../theme";
 
@@ -54,14 +55,21 @@ export default function Index() {
       >
         <View style={{
           paddingVertical: 5, 
+          flexDirection: 'row', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          width: '100%',
+          paddingHorizontal: 20,
         }}>
+          <View style={{ height: 16, width: 16, }} /> 
+
           <Text weight="bold" style={{
             fontSize: themes.fonts.sizes.heading
           }}>
             root
           </Text>
 
-          <IconButton iconName='arrow-right' type='primary' onPress={() => router.push('/stats')}/>
+          <HeaderIconButton onPress={() => router.push('/stats')} icon='bar-chart-2' />
         </View>
 
         <View style={{
@@ -158,11 +166,11 @@ export default function Index() {
             />
         </View>
         
-        <View>
+        {/* <View>
           <Text style={{ opacity: 0.5, }}>
             Swipe up for logs and statistics
           </Text>
-        </View>
+        </View> */}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

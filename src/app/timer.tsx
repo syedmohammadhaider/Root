@@ -62,7 +62,7 @@ export default function Timer() {
                 setIsFinished(true);
                 saveData({
                     id: Date.now().toString(), 
-                    completedDuration: timeElapsed,
+                    completedDuration: finalTime,
                     totalDuration: +duration,
                     timestamp: Date.now(),
                     mode: 'pomodoro'
@@ -77,7 +77,7 @@ export default function Timer() {
         setIsFinished(true); 
         saveData({
             id: Date.now().toString(), 
-            completedDuration: timeElapsed,
+            completedDuration: finalTime,
             totalDuration: +duration,
             timestamp: Date.now(),
             mode: (mode === 'classic' || mode === 'pomodoro' || mode === 'infinity') ? mode : 'infinity'
@@ -86,8 +86,10 @@ export default function Timer() {
     };
 
     const handleStop = () => {
-        if (!timerRunning) 
+        if (!timerRunning) {
             router.navigate('/')
+            return; 
+        } 
 
         setTimerRunning(false); 
         setIsResting(false); 
@@ -99,9 +101,11 @@ export default function Timer() {
 
     const handleSkip = () => {
         handleFinish(timeElapsed); 
-}
+    }
 
     const handleInterrupt = () => {
+        if (!isFinished && !isStopped) return; 
+        
         saveData({
             id: Date.now().toString(), 
             completedDuration: timeElapsed,
