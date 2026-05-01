@@ -28,7 +28,7 @@ function LogCard({ mode, completedDuration, totalDuration, timestamp }: {
             style={{
                 backgroundColor: theme.cardBg, 
                 padding: 20,
-                borderRadius: 10,
+                borderRadius: themes.spacing.borderRadius,
                 marginHorizontal: 20,
                 marginBottom: 20,
                 flexDirection: 'row', 
@@ -132,7 +132,7 @@ export default function Stats() {
                     style={{
                         backgroundColor: theme.cardBg, 
                         padding: 20,
-                        borderRadius: 10,
+                        borderRadius: themes.spacing.borderRadius,
                         marginHorizontal: 20,
                         justifyContent: 'center',
                         alignItems: 'center', 
