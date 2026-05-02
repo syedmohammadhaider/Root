@@ -2,6 +2,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
 import { useState } from "react";
 import { Keyboard, ToastAndroid, TouchableWithoutFeedback, View } from "react-native";
+import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import IconButton from "../components/IconButton";
@@ -43,6 +44,11 @@ export default function Index() {
       }
     }); 
   };
+
+  const flingGesture = Gesture.Fling()
+    .direction(Directions.UP)
+    .runOnJS(true)
+    .onEnd(() => router.push('/stats'));
   
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -166,11 +172,24 @@ export default function Index() {
             />
         </View>
         
-        {/* <View>
-          <Text style={{ opacity: 0.5, }}>
-            Swipe up for logs and statistics
-          </Text>
-        </View> */}
+        <GestureDetector 
+          gesture={flingGesture}
+        >
+          <View style={{
+            // backgroundColor: theme.cardBg,
+            width: '100%',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            height: '30%', 
+            position: 'absolute', 
+            bottom: 0,
+            padding: 25, 
+          }}>
+            <Text style={{ opacity: 0.5, }}>
+              Swipe up for logs and statistics
+            </Text>
+          </View>
+        </GestureDetector>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

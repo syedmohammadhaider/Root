@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import { TouchableOpacity, ViewStyle } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 
-export default function HeaderIconButton({ icon, style, onPress }: { icon: React.ComponentProps<typeof Feather>['name']; style: ViewStyle; onPress: () => void }) {
+export default function HeaderIconButton({ icon, style, onPress }: { icon: React.ComponentProps<typeof Feather>['name']; style?: ViewStyle; onPress: () => void }) {
     const { theme } = useTheme();
 
     return (
