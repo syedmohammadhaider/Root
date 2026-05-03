@@ -75,7 +75,7 @@ export default function Index() {
             root
           </Text>
 
-          <HeaderIconButton onPress={() => router.push('/stats')} icon='bar-chart-2' />
+          <HeaderIconButton onPress={() => router.push('/settings')} icon='sliders' />
         </View>
 
         <View style={{
