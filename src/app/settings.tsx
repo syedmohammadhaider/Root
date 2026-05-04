@@ -5,6 +5,56 @@ import Text from '../components/Text';
 import { useTheme } from '../contexts/ThemeContext';
 import { themes } from '../theme';
 
+type SettingButtonProps = {
+    name: string; 
+    iconName: React.ComponentProps<typeof Feather>['name']; 
+    children?: React.ReactNode;
+    onPress?: () => void; 
+}; 
+
+function SettingButton({ name, iconName, children, onPress }: SettingButtonProps) {
+    const { theme, toggleTheme } = useTheme(); 
+
+    return (
+        <TouchableOpacity
+            style={{
+                backgroundColor: theme.cardBg,
+                padding: 15,
+                marginVertical: 5, 
+            }}
+            onPress={onPress}
+            disabled={!onPress}
+        >
+            <View
+                style={{
+                    flexDirection: 'row', 
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
+            >
+                <View
+                    style={{
+                        flexDirection: 'row', 
+                        alignItems: 'center',
+                        gap: 10,
+                    }}
+                >
+                    <Feather name={iconName} size={20} color={theme.text} />
+                    <Text
+                        style={{
+                            fontSize: themes.fonts.sizes.body,
+                        }}
+                    >
+                        {name}
+                    </Text>
+                </View>
+
+                {children}
+            </View>
+        </TouchableOpacity>
+    ); 
+}
+
 export default function Settings() {
     const { theme, toggleTheme } = useTheme(); 
     return (
@@ -45,41 +95,36 @@ export default function Settings() {
                 <View
                     style={{
                         backgroundColor: theme.cardBg,
-                        padding: 15,
                         borderRadius: themes.spacing.borderRadius,
                         marginTop: 10,
                     }}
                 >
-                    <View
-                        style={{
-                            flexDirection: 'row', 
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text>
-                            Theme
-                        </Text>
-
+                    <SettingButton name='Theme' iconName='droplet'>
                         <TouchableOpacity
                             onPress={toggleTheme}
                         >
-                            <View style={{
-                                flexDirection: 'row', 
-                                alignItems: 'center',
-                                gap: 10,
-                                backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                                padding: 10,
-                                borderRadius: themes.spacing.borderRadius,
-                            }}>
-                                <Feather name={theme === themes.lightColors ? 'sun' : 'moon'} size={20} color={theme.text} />
-
-                                <Text>
-                                    {theme === themes.lightColors ? 'Light' : 'Dark'}
-                                </Text>
-                            </View>
+                            <Feather name={theme === themes.lightColors ? 'sun' : 'moon'} size={20} color={theme.text} />
                         </TouchableOpacity>
-                    </View>
+                    </SettingButton>
+                </View>
+
+                <Text
+                    weight='bold'
+                    style={{
+                        fontSize: themes.fonts.sizes.subHeading,
+                    }}
+                >
+                    data
+                </Text>
+
+                <View
+                    style={{
+                        backgroundColor: theme.cardBg,
+                        borderRadius: themes.spacing.borderRadius,
+                        marginTop: 10,
+                    }}
+                >
+                    <SettingButton name='Delete all logs' iconName='alert-octagon' />
                 </View>
             </View>
         </View>
