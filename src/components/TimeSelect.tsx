@@ -49,10 +49,13 @@ export default function TimeSelect({ chosenTime, maxValue=59, size='regular', on
                 }}
                 onBlur={() => {
                     setFocused(false);
+                    const finalValue = Math.min(inputValue, maxValue);
+                    
                     TextInputRef.current?.setNativeProps({ 
-                        text: (Math.min(inputValue, maxValue)).toString().padStart(2, '0')
+                        text: finalValue.toString().padStart(2, '0')
                     }); 
-                    onUpdate && onUpdate(Math.min(inputValue, maxValue));
+
+                    onUpdate && onUpdate(finalValue);
                 }}
                 {...rest} 
             />
