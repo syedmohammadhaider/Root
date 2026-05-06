@@ -13,8 +13,8 @@ type SettingButtonProps = {
 }; 
 
 function SettingButton({ name, iconName, children, onPress }: SettingButtonProps) {
-    const { theme, toggleTheme } = useTheme(); 
-
+    const { theme } = useTheme(); 
+    
     return (
         <TouchableOpacity
             style={{
@@ -49,7 +49,7 @@ function SettingButton({ name, iconName, children, onPress }: SettingButtonProps
                     </Text>
                 </View>
 
-                {children}
+                <Feather name='chevron-right' size={20} color={theme.text} />
             </View>
         </TouchableOpacity>
     ); 
@@ -99,13 +99,7 @@ export default function Settings() {
                         marginTop: 10,
                     }}
                 >
-                    <SettingButton name='Theme' iconName='droplet'>
-                        <TouchableOpacity
-                            onPress={toggleTheme}
-                        >
-                            <Feather name={theme === themes.lightColors ? 'sun' : 'moon'} size={20} color={theme.text} />
-                        </TouchableOpacity>
-                    </SettingButton>
+                    <SettingButton name='Theme' iconName='droplet' onPress={toggleTheme} />
                 </View>
 
                 <Text
