@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Text from '../components/Text';
@@ -57,6 +58,7 @@ function SettingButton({ name, iconName, children, onPress }: SettingButtonProps
 
 export default function Settings() {
     const { theme, toggleTheme } = useTheme(); 
+        const router = useRouter(); 
     return (
         <View style={{
             flex: 1, 
@@ -80,17 +82,9 @@ export default function Settings() {
 
             <View
                 style={{
-                    padding: 20, 
+                    paddingHorizontal: 20, 
                 }}
             >
-                <Text
-                    weight='bold'
-                    style={{
-                        fontSize: themes.fonts.sizes.subHeading,
-                    }}
-                >
-                    colors
-                </Text>
 
                 <View
                     style={{
@@ -99,17 +93,20 @@ export default function Settings() {
                         marginTop: 10,
                     }}
                 >
-                    <SettingButton name='Theme' iconName='droplet' onPress={toggleTheme} />
+                    <SettingButton name='Appearance' iconName='droplet' onPress={() => router.push('/(settings)/appearance')} />
+                    <SettingButton name='Notifications' iconName='bell' />
                 </View>
 
-                <Text
-                    weight='bold'
+                <View
                     style={{
-                        fontSize: themes.fonts.sizes.subHeading,
+                        backgroundColor: theme.cardBg,
+                        borderRadius: themes.spacing.borderRadius,
+                        marginTop: 10,
                     }}
                 >
-                    data
-                </Text>
+                    <SettingButton name='Export logs' iconName='file-text' />
+                    <SettingButton name='Delete all logs' iconName='alert-octagon' />
+                </View>
 
                 <View
                     style={{
@@ -118,7 +115,7 @@ export default function Settings() {
                         marginTop: 10,
                     }}
                 >
-                    <SettingButton name='Delete all logs' iconName='alert-octagon' />
+                    <SettingButton name='About' iconName='info' />
                 </View>
             </View>
         </View>
