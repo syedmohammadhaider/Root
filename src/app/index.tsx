@@ -3,13 +3,13 @@ import { useRouter } from 'expo-router';
 import { useState } from "react";
 import { Keyboard, ToastAndroid, TouchableWithoutFeedback, View } from "react-native";
 import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import IconButton from "../components/IconButton";
 import Text from "../components/Text";
 import TimeSelect from "../components/TimeSelect";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Header from '../components/Header';
 import HeaderIconButton from '../components/HeaderIconButton';
 import { useTheme } from "../contexts/ThemeContext";
 import { themes } from "../theme";
@@ -52,31 +52,17 @@ export default function Index() {
   
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView
+      <View
         style={{
           flex: 1,
           alignItems: "center",
           backgroundColor: theme.background
         }}
       >
-        <View style={{
-          paddingVertical: 5, 
-          flexDirection: 'row', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          width: '100%',
-          paddingHorizontal: 20,
-        }}>
-          <View style={{ height: 16, width: 16, }} /> 
-
-          <Text weight="bold" style={{
-            fontSize: themes.fonts.sizes.heading
-          }}>
-            root
-          </Text>
-
-          <HeaderIconButton onPress={() => router.push('/settings')} icon='sliders' />
-        </View>
+        <Header 
+          title="root"
+          rightButton={<HeaderIconButton onPress={() => router.push('/settings')} icon='sliders' />}
+        />
 
         <View style={{
           flex: 1, 
@@ -190,7 +176,7 @@ export default function Index() {
             </Text>
           </View>
         </GestureDetector>
-      </SafeAreaView>
+      </View>
     </TouchableWithoutFeedback>
   );
 }

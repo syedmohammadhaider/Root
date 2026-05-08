@@ -1,25 +1,22 @@
+import Header from '@/src/components/Header';
+import HeaderIconButton from '@/src/components/HeaderIconButton';
 import { themes } from '@/src/theme';
+import { useRouter } from 'expo-router';
 import { ScrollView, Switch, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Text from '../../components/Text';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export default function AppearanceSettings() {
     const { theme, isDark, toggleTheme } = useTheme(); 
+    const router = useRouter(); 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+        <View style={{ flex: 1, backgroundColor: theme.background }}>
+            <Header
+                title="appearance"
+                leftButton={<HeaderIconButton onPress={() => router.back()} icon='arrow-left' />}
+            />
             <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
-                <Text
-                    weight='bold'
-                    style={{
-                        fontSize: themes.fonts.sizes.heading, 
-                        marginBottom: 20,
-                        textAlign: 'center',
-                    }}
-                >
-                    appearance
-                </Text>
-
+                
                 <View
                     style={{
                         flexDirection: 'row', 
@@ -45,6 +42,6 @@ export default function AppearanceSettings() {
                     />
                 </View>
             </ScrollView>
-        </SafeAreaView>
+        </View>
     ); 
 }

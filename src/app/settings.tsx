@@ -1,7 +1,8 @@
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import Header from '../components/Header';
+import HeaderIconButton from '../components/HeaderIconButton';
 import Text from '../components/Text';
 import { useTheme } from '../contexts/ThemeContext';
 import { themes } from '../theme';
@@ -64,21 +65,10 @@ export default function Settings() {
             flex: 1, 
             backgroundColor: theme.background, 
         }}>
-            <SafeAreaView
-                style={{
-                    justifyContent: 'center', 
-                    alignItems: 'center', 
-                }}
-            >
-                <Text
-                    weight='bold'
-                    style={{
-                        fontSize: themes.fonts.sizes.heading,
-                    }}
-                >
-                    settings
-                </Text>
-            </SafeAreaView>
+            <Header
+                title="settings"
+                leftButton={<HeaderIconButton onPress={() => router.back()} icon='arrow-left' />}
+            />
 
             <View
                 style={{
