@@ -20,6 +20,7 @@ export default function Header({ title, leftButton, rightButton }: HeaderProps) 
                 alignItems: 'center', 
                 flexDirection: 'row',
                 paddingHorizontal: 15, 
+                paddingVertical: 20,
                 backgroundColor: theme.background,
             }}
         >
