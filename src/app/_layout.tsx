@@ -1,10 +1,13 @@
 import { useFonts } from 'expo-font';
+import * as NavigationBar from 'expo-navigation-bar';
 import { Stack } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider } from '../contexts/ThemeContext';
 
+NavigationBar.setVisibilityAsync('hidden');
 SplashScreen.preventAutoHideAsync(); 
 
 export default function RootLayout() {
@@ -27,6 +30,7 @@ export default function RootLayout() {
         <Stack 
           screenOptions={{ headerShown: false, }} 
         />
+        <StatusBar hidden />
       </ThemeProvider>
     </GestureHandlerRootView>
   );

@@ -39,6 +39,14 @@
           }
         }
       ],
+      [
+        "expo-navigation-bar",
+        {
+          "enforceContrast": true,
+          "barStyle": "light",
+          "visibility": "hidden"
+        }
+      ],
       "expo-font"
     ],
     "experiments": {
