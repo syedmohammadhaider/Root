@@ -9,6 +9,25 @@ export interface Session {
 }; 
 
 const DEFAULT_KEY_NAME = "@Root:Sessions"; 
+const THEME_PREFERENCE_KEY = "@Root:ThemePreference";
+
+export const loadThemePreference = async (): Promise<boolean> => {
+    try {
+        const response = await AsyncStorage.getItem(THEME_PREFERENCE_KEY);
+        return response ? JSON.parse(response) : false; 
+    } catch (e) {
+        console.error("Error loading theme preference: ", e); 
+        return false; 
+    }
+}
+
+export const saveThemePreference = async (isDark: boolean) => {
+    try {
+        await AsyncStorage.setItem(THEME_PREFERENCE_KEY, JSON.stringify(isDark)); 
+    } catch (e) {
+        console.error("Error saving theme preference: ", e); 
+    }
+}
 
 export const loadData = async (onError?: (e: unknown) => void, key=DEFAULT_KEY_NAME) => {
     try {

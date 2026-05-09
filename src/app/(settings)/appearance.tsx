@@ -32,7 +32,7 @@ export default function AppearanceSettings() {
                             fontSize: themes.fonts.sizes.body,
                         }}
                     >
-                        Theme
+                        Dark Mode
                     </Text>
                     <Switch
                         value={isDark}
