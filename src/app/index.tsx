@@ -1,4 +1,3 @@
-import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
 import { useState } from "react";
 import { Keyboard, ToastAndroid, TouchableWithoutFeedback, View } from "react-native";
@@ -9,6 +8,7 @@ import Text from "../components/Text";
 import TimeSelect from "../components/TimeSelect";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import DropdownPicker from '../components/DropdownPicker';
 import Header from '../components/Header';
 import HeaderIconButton from '../components/HeaderIconButton';
 import { useTheme } from "../contexts/ThemeContext";
@@ -77,19 +77,15 @@ export default function Index() {
               borderRadius: themes.spacing.borderRadius,
             }}
           >
-            <Picker
-              selectedValue={timerMode}
-              onValueChange={(itemValue, itemIndex) => setTimerMode(itemValue)}
-              mode='dialog'
-              dropdownIconColor={theme.text}
-              style={{
-                color: theme.text,
-              }}
-            >
-              <Picker.Item label="Classic" value="classic" style={{ fontFamily: themes.fonts.body }} />
-              <Picker.Item label="Pomodoro" value="pomodoro" style={{ fontFamily: themes.fonts.body }} />
-              <Picker.Item label="Infinity" value="infinity" style={{ fontFamily: themes.fonts.body }} />
-            </Picker>
+            <DropdownPicker
+              items={[
+                { label: 'Classic', onPress: () => setTimerMode('classic') },
+                { label: 'Pomodoro', onPress: () => setTimerMode('pomodoro') },
+                { label: 'Infinity', onPress: () => setTimerMode('infinity') },
+              ]}
+              dialogPosition='top'
+            />  
+          
           </View>
 
             {(timerMode !== 'infinity') && (<View
