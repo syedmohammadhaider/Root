@@ -28,7 +28,10 @@ export default function RootLayout() {
     <GestureHandlerRootView>
       <ThemeProvider>
         <Stack 
-          screenOptions={{ headerShown: false, }} 
+          screenOptions={{ 
+            headerShown: false, 
+            animation: 'fade_from_bottom'
+          }} 
         />
         <StatusBar hidden />
       </ThemeProvider>
