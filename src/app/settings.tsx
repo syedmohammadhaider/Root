@@ -67,7 +67,7 @@ export default function Settings() {
         }}>
             <Header
                 title="settings"
-                leftButton={<HeaderIconButton onPress={() => router.back()} icon='arrow-left' />}
+                leftButton={<HeaderIconButton onPress={() => router.navigate('/')} icon='arrow-left' />}
             />
 
             <View
@@ -105,7 +105,7 @@ export default function Settings() {
                         marginTop: 10,
                     }}
                 >
-                    <SettingButton name='About' iconName='info' />
+                    <SettingButton name='About' iconName='info' onPress={() => router.navigate('/(settings)/about')} />
                 </View>
             </View>
         </View>
