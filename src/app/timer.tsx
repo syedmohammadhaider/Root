@@ -46,7 +46,7 @@ export default function Timer() {
         return (timeElapsed / targetDuration) * 100; 
     }
 
-    const handleFinish = (finalTime: number) => {
+    const handleFinish = (finalTime: number, interrupted=false) => {
         if (mode === 'pomodoro') {
             const totalSteps = totalSessions.current * 2 - 1;
 
@@ -74,7 +74,7 @@ export default function Timer() {
 
         setTimerRunning(false); 
         // common finish logic
-        setIsFinished(true); 
+        if (!interrupted) setIsFinished(true); 
         saveData({
             id: Date.now().toString(), 
             completedDuration: finalTime,
@@ -96,7 +96,7 @@ export default function Timer() {
         if (mode !== 'infinity')
             setIsStopped(true); 
 
-        handleFinish(timeElapsed);
+        handleFinish(timeElapsed, true);
     };
 
     const handleSkip = () => {
