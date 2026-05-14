@@ -1,10 +1,11 @@
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { TouchableOpacity, View } from 'react-native';
+import { Alert, TouchableOpacity, View } from 'react-native';
 import Header from '../components/Header';
 import HeaderIconButton from '../components/HeaderIconButton';
 import Text from '../components/Text';
 import { useTheme } from '../contexts/ThemeContext';
+import { clearData } from '../services/storage';
 import { themes } from '../theme';
 
 type SettingButtonProps = {
@@ -59,7 +60,29 @@ function SettingButton({ name, iconName, children, onPress }: SettingButtonProps
 
 export default function Settings() {
     const { theme, toggleTheme } = useTheme(); 
-        const router = useRouter(); 
+    const router = useRouter(); 
+
+    const deleteAllLogs = async () => {
+        Alert.alert(
+            "Are you sure?", 
+            "Pressing delete will clear all logs from your phone. It can't be recovered.", 
+            [
+                {
+                    'text': 'Cancel', 
+                    'style': 'cancel'
+                }, 
+                {
+                    'text': 'Delete', 
+                    onPress: () => clearData(),
+                    'style': 'destructive',
+                }
+            ],
+            {
+                cancelable: true
+            }
+        )
+    };
+
     return (
         <View style={{
             flex: 1, 
@@ -95,7 +118,7 @@ export default function Settings() {
                     }}
                 >
                     <SettingButton name='Export logs' iconName='file-text' />
-                    <SettingButton name='Delete all logs' iconName='alert-octagon' />
+                    <SettingButton name='Delete all logs' iconName='alert-octagon' onPress={deleteAllLogs} />
                 </View>
 
                 <View
