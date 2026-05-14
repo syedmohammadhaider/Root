@@ -1,18 +1,20 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Alert, ScrollView, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HeaderIconButton from '../components/HeaderIconButton';
 import Text from '../components/Text';
 import { useTheme } from '../contexts/ThemeContext';
-import { loadData } from '../services/storage';
+import { deleteData, loadData } from '../services/storage';
 import { themes } from '../theme';
 
-function LogCard({ mode, completedDuration, totalDuration, timestamp }: {
+function LogCard({ mode, id, completedDuration, totalDuration, timestamp, onPress }: {
     mode: 'infinity' | 'classic' | 'pomodoro';
+    id: number;
     completedDuration: number;
     totalDuration: number;
     timestamp: number; 
+    onPress: () => void; 
 }) {
     const { theme } = useTheme();
     const formatTime = (time: number) => {
@@ -22,9 +24,32 @@ function LogCard({ mode, completedDuration, totalDuration, timestamp }: {
         
         return `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
     }
+    const handlePress = async () => {
+        Alert.alert(
+            "Are you sure you want to delete this log? ",
+            "You won't be able to recover this data",
+            [
+                {
+                    text: 'Cancel', 
+                    style: 'cancel'
+                },
+                {
+                    text: 'Delete', 
+                    onPress: async () => { 
+                        await deleteData(id.toString()); 
+                        onPress(); 
+                    },
+                    style: 'destructive'
+                },
+            ],
+            {
+                cancelable: true
+            }
+        )
+    };
 
     return (
-        <View
+        <TouchableOpacity
             style={{
                 backgroundColor: theme.cardBg, 
                 padding: 20,
@@ -34,6 +59,7 @@ function LogCard({ mode, completedDuration, totalDuration, timestamp }: {
                 flexDirection: 'row', 
                 justifyContent: 'space-between',
             }}
+            onPress={handlePress}
         >
             <View>
                 <Text 
@@ -67,7 +93,7 @@ function LogCard({ mode, completedDuration, totalDuration, timestamp }: {
 
                 <Text>{new Date(timestamp).toLocaleDateString()}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     ); 
 }
 
@@ -83,16 +109,17 @@ export default function Stats() {
         return `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
     }
 
-
     const router = useRouter(); 
 
+    const fetchData = async () => {
+        const data = await loadData();
+        setLogs(data);
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await loadData();
-            setLogs(data);
-        };
         fetchData();
     }, []);
+
     return (
         <View
             style={{
@@ -145,7 +172,7 @@ export default function Stats() {
                 <Text weight='bold' style={{ fontSize: themes.fonts.sizes.heading, textAlign: 'center', marginVertical: 20, }}>logs</Text>
                 
                 {logs.reverse().map((log, index) => (
-                    <LogCard key={log.id} mode={log.mode} completedDuration={log.completedDuration} totalDuration={log.totalDuration} timestamp={log.timestamp} />
+                    <LogCard key={log.id} id={log.id} mode={log.mode} completedDuration={log.completedDuration} totalDuration={log.totalDuration} timestamp={log.timestamp} onPress={fetchData} />
                 ))}
             </ScrollView>
         </View>

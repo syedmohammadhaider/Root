@@ -51,7 +51,7 @@ export const saveData = async (data: Session, onError?: (e: unknown) => void, ke
     }
 };
 
-export const deleteData = async (key=DEFAULT_KEY_NAME, itemId: string) => {
+export const deleteData = async (itemId: string, key=DEFAULT_KEY_NAME) => {
     const previousData: Session[] = await loadData(); 
     const filteredData: Session[] = previousData.filter(session => session.id !== itemId);
     await AsyncStorage.setItem(key, JSON.stringify(filteredData)); 
