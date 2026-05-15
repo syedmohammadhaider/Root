@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Alert, ScrollView, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import Header from '../components/Header';
 import HeaderIconButton from '../components/HeaderIconButton';
 import Text from '../components/Text';
 import { useTheme } from '../contexts/ThemeContext';
@@ -151,9 +151,7 @@ export default function Stats() {
                 }}
             >
 
-                <SafeAreaView>
-                    <Text weight='bold' style={{ fontSize: themes.fonts.sizes.heading, textAlign: 'center', }}>stats</Text>
-                </SafeAreaView>
+                <Header title='stats' />
 
                 <View
                     style={{
@@ -169,7 +167,7 @@ export default function Stats() {
                     <Text weight='bold' style={{ fontSize: themes.fonts.sizes.heading }}>{formatTime(logs.reduce((acc, log) => acc + log.completedDuration, 0))}</Text>
                 </View>
 
-                <Text weight='bold' style={{ fontSize: themes.fonts.sizes.heading, textAlign: 'center', marginVertical: 20, }}>logs</Text>
+                <Header title='logs' />
                 
                 {logs.reverse().map((log, index) => (
                     <LogCard key={log.id} id={log.id} mode={log.mode} completedDuration={log.completedDuration} totalDuration={log.totalDuration} timestamp={log.timestamp} onPress={fetchData} />
