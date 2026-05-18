@@ -8,7 +8,7 @@ export interface Session {
     mode: 'classic' | 'pomodoro' | 'infinity'; 
 }; 
 
-const DEFAULT_KEY_NAME = "@Roots:Session"; 
+const DEFAULT_KEY_NAME = "@Root:Sessions"; 
 const THEME_PREFERENCE_KEY = "@Root:ThemePreference";
 
 export const loadThemePreference = async (): Promise<boolean> => {
