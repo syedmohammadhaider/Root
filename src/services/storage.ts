@@ -8,7 +8,7 @@ export interface Session {
     mode: 'classic' | 'pomodoro' | 'infinity'; 
 }; 
 
-const DEFAULT_KEY_NAME = "@Root:Sessions"; 
+const DEFAULT_KEY_NAME = "@Roots:Session"; 
 const THEME_PREFERENCE_KEY = "@Root:ThemePreference";
 
 export const loadThemePreference = async (): Promise<boolean> => {
@@ -59,4 +59,17 @@ export const deleteData = async (itemId: string, key=DEFAULT_KEY_NAME) => {
 
 export const clearData = async (key=DEFAULT_KEY_NAME) => { 
     await AsyncStorage.removeItem(key); 
+};
+
+export const getLogData = async (key=DEFAULT_KEY_NAME): Promise<string | null> => {
+    try {
+        const data = await AsyncStorage.getItem(key);
+        if (!data) {
+            return null;
+        }
+        return JSON.stringify(JSON.parse(data), null, 2);
+    } catch (e) {
+        console.error("Error retrieving log data: ", e);
+        return null;
+    }
 }; 

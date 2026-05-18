@@ -1,11 +1,11 @@
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Alert, TouchableOpacity, View } from 'react-native';
+import { Alert, TouchableOpacity, View, Share } from 'react-native';
 import Header from '../components/Header';
 import HeaderIconButton from '../components/HeaderIconButton';
 import Text from '../components/Text';
 import { useTheme } from '../contexts/ThemeContext';
-import { clearData } from '../services/storage';
+import { clearData, getLogData } from '../services/storage';
 import { themes } from '../theme';
 
 type SettingButtonProps = {
@@ -83,6 +83,24 @@ export default function Settings() {
         )
     };
 
+    const exportLogs = async () => {
+        try {
+            const logData = await getLogData();
+            if (!logData) {
+                Alert.alert("No data", "There are no logs to export.");
+                return;
+            }
+            await Share.share({
+                message: logData,
+                title: "Export Logs",
+                url: undefined,
+            });
+        } catch (error) {
+            Alert.alert("Error", "Failed to export logs.");
+            console.error("Export logs error: ", error);
+        }
+    };
+
     return (
         <View style={{
             flex: 1, 
@@ -117,7 +135,7 @@ export default function Settings() {
                         marginTop: 10,
                     }}
                 >
-                    <SettingButton name='Export logs' iconName='file-text' />
+                    <SettingButton name='Export logs' iconName='file-text' onPress={exportLogs} />
                     <SettingButton name='Delete all logs' iconName='alert-octagon' onPress={deleteAllLogs} />
                 </View>
 
