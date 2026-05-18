@@ -83,6 +83,7 @@ export default function Index() {
                 { label: 'Pomodoro', onPress: () => setTimerMode('pomodoro') },
                 { label: 'Infinity', onPress: () => setTimerMode('infinity') },
               ]}
+              defaultLabel={timerMode.charAt(0).toUpperCase() + timerMode.slice(1)}
               dialogPosition='top'
             />  
           

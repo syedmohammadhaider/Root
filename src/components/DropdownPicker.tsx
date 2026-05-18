@@ -13,6 +13,7 @@ type DropdownItemProps = {
 
 type DropdownPickerProps = {
     items: DropdownItemProps[]; 
+    defaultLabel?: string; 
     dialogPosition: 'top' | 'bottom'; 
 }; 
 
@@ -31,10 +32,10 @@ function DropdownItem({ label, onPress }: DropdownItemProps) {
     );
 }
 
-export default function DropdownPicker({items, dialogPosition}: DropdownPickerProps) {
+export default function DropdownPicker({items, defaultLabel, dialogPosition}: DropdownPickerProps) {
     const { theme } = useTheme(); 
     const [ isDialogOpen, setIsDialogOpen ] = useState(false); 
-    const [ chosenItem, setChosenItem ] = useState<string>('Select an option');
+    const [ chosenItem, setChosenItem ] = useState<string>(defaultLabel ? defaultLabel : 'Select an option');
 
     const handleItemPress = (item: DropdownItemProps) => {
         setChosenItem(item.label);
