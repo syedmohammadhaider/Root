@@ -1,50 +1,77 @@
-# Welcome to your Expo app 👋
+![Root Poster](assets/images/screenshots/root-github-cover.png)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Root
+Root is a distraction-free, offline-first, minimalist focus timer. 
 
-## Get started
+[![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](https://opensource.org/licenses/MIT)
 
-1. Install dependencies
+--- 
 
-   ```bash
-   npm install
-   ```
+## Table of Contents
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [License](#-license)
 
-2. Start the app
+--- 
 
-   ```bash
-   npx expo start
-   ```
+## Features
+- **Recognizes distraction**: Programmed to detect when phone is picked up or app is backgrounded, and instantly terminates the timer.
+- **Local-first architecture**: Root is designed to run completely offline. You data stays on your device at all times.
+- **Zero distractions**: No gamification, simple minimal interface to maximize productivity.
+- **Control data**: Root allows you to export, import or delete all logs in one tap. 
 
-In the output, you'll find options to open the app in a
+--- 
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Tech Stack
+- App is made using **React Native**.
+- **Expo** APIs used for additional functionality.
+- **React Native Async Storage** for key-value based local storage of sessions. 
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+--- 
 
-## Get a fresh project
+## Getting Started
 
-When you're ready, run:
+### Prerequisites
+Ensure you have your mobile development environment configured for React Native:
+*   Node.js (v18+)
+*   Android Studio & SDK (for Android) or Xcode (for iOS, macOS only)
+*   Watchman (recommended for macOS)
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/syedmohammadhaider/Root.git
+    cd root
+    ```
+
+2.  **Install project dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+
+3.  **Install iOS CocoaPods (Mac users only):**
+    ```bash
+    cd ios && pod install && cd ..
+    ```
+
+### Running the App
+
+Start the Metro bundler and launch the application on a simulator or physical device:
 
 ```bash
-npm run reset-project
+# Start Expo Go Server
+npx expo start
+
+# Or run directly on an emulator/device
+npx expo run:android
+npx expo run:ios
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+--- 
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
