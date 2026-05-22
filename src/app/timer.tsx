@@ -103,9 +103,10 @@ export default function Timer() {
         handleFinish(timeElapsed); 
     }
 
-    const handleInterrupt = () => {
-        if (!isFinished && !isStopped) return; 
-        
+    /*const handleInterrupt = () => {
+        // if (!isFinished && !isStopped) return; 
+        if (!timerRunning) return; 
+
         saveData({
             id: Date.now().toString(), 
             completedDuration: timeElapsed,
@@ -113,8 +114,19 @@ export default function Timer() {
             timestamp: Date.now(),
             mode: (mode === 'classic' || mode === 'pomodoro' || mode === 'infinity') ? mode : 'infinity'
         });
+        setTimerRunning(false); 
+        setIsStopped(true); 
+        setIsResting(false); 
         console.log("INTERRUPTED");
-    }; 
+    }; */
+
+    const handleInterrupt = () => {
+        if (!timerRunning || isResting) return;
+
+        if (mode === 'pomodoro') currentSession.current = totalSessions.current * 2 - 1;;
+
+        handleFinish(totalUnskippedTime, true); 
+    };
 
     const handleRetry = () => {
         router.push({
