@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { Accelerometer } from 'expo-sensors';
 import { useEffect, useRef, useState } from "react";
-import { Pressable, View } from "react-native";
+import { EventSubscription, Pressable, View } from "react-native";
 import Animated, { FadeInDown, LinearTransition } from 'react-native-reanimated';
 import IconButton from "../components/IconButton";
 import ProgressBar from "../components/ProgressBar";
@@ -8,6 +9,8 @@ import Text from "../components/Text";
 import { useTheme } from "../contexts/ThemeContext";
 import { saveData } from "../services/storage";
 import { themes } from "../theme";
+
+const ACCELEROMETER_THRESHOLD = 1.5; 
 
 export default function Timer() {
     const PROGRESS_BAR_WIDTH = 160; 
@@ -24,11 +27,19 @@ export default function Timer() {
     const [ isResting, setIsResting ] = useState<boolean>(false); 
     const [ isFinished, setIsFinished ] = useState<boolean>(false); 
     const [ isStopped, setIsStopped ] = useState<boolean>(false); 
+    const [ { x, y, z }, setAccelData ] = useState({ x: 0, y: 0, z: 0 }); 
+    const [ accelSubscription, setAccelSubscription ] = useState<EventSubscription | null>(null); 
 
     const totalSessions = useRef<number>(3); 
     const currentSession = useRef<number>(1);  // 1-indexed
     
     const targetDuration = isResting ? Number(rest) : Number(duration); 
+
+    const _accelSubscribe = () => { setAccelSubscription(Accelerometer.addListener(setAccelData)); }; 
+    const _accelUnsubscribe = () => { 
+        accelSubscription && accelSubscription.remove(); 
+        setAccelSubscription(null); 
+     };
 
     const formatTime = (time: number) => {
         const seconds = time % 60; 
@@ -163,8 +174,16 @@ export default function Timer() {
         return () => clearInterval(interval);
     }, [timerRunning, targetDuration]);
 
-    // DEBUG //
-    useEffect(() => console.log(totalUnskippedTime), [totalUnskippedTime])
+    useEffect(() => {
+        if (!timerRunning) return; 
+        if (Math.sqrt(x*x + y*y + z*z) >= 1.5)
+            handleInterrupt(); 
+    }, [x, y, z]);
+
+    useEffect(() => {
+        _accelSubscribe(); 
+        return () => _accelUnsubscribe(); 
+    }, [])
 
     return (
         <Pressable
@@ -271,7 +290,7 @@ export default function Timer() {
                     }
 
                     {
-                        (isFinished) && 
+                        (!timerRunning) && 
                         (
                             <Animated.View
                                 layout={LinearTransition}
