@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Accelerometer } from 'expo-sensors';
 import { useEffect, useRef, useState } from "react";
-import { EventSubscription, Pressable, View } from "react-native";
+import { AppState, EventSubscription, Pressable, View } from "react-native";
 import Animated, { FadeInDown, LinearTransition } from 'react-native-reanimated';
 import IconButton from "../components/IconButton";
 import ProgressBar from "../components/ProgressBar";
@@ -29,6 +29,9 @@ export default function Timer() {
     const [ isStopped, setIsStopped ] = useState<boolean>(false); 
     const [ { x, y, z }, setAccelData ] = useState({ x: 0, y: 0, z: 0 }); 
     const [ accelSubscription, setAccelSubscription ] = useState<EventSubscription | null>(null); 
+
+    const appState = useRef(AppState.currentState); 
+    const [ appStateVisible, setAppStateVisible ] = useState(appState.current); 
 
     const totalSessions = useRef<number>(3); 
     const currentSession = useRef<number>(1);  // 1-indexed
@@ -176,14 +179,31 @@ export default function Timer() {
 
     useEffect(() => {
         if (!timerRunning) return; 
-        if (Math.sqrt(x*x + y*y + z*z) >= 1.5)
+        if (Math.sqrt(x*x + y*y + z*z) >= ACCELEROMETER_THRESHOLD)
             handleInterrupt(); 
     }, [x, y, z]);
 
     useEffect(() => {
         _accelSubscribe(); 
         return () => _accelUnsubscribe(); 
-    }, [])
+    }, []);
+
+    useEffect(() => {
+    const appStateSubscription = AppState.addEventListener('change', nextAppState => {
+      
+      if (nextAppState === 'background') {
+        handleInterrupt(); 
+      }
+
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+      console.log('AppState:', appState.current);
+    });
+
+    return () => {
+      appStateSubscription.remove();
+    };
+  }, []);
 
     return (
         <Pressable
