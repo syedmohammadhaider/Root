@@ -9,7 +9,26 @@ export interface Session {
 }; 
 
 const DEFAULT_KEY_NAME = "@Root:Sessions"; 
-const THEME_PREFERENCE_KEY = "@Root:ThemePreference";
+const SYSTEM_THEME_KEY = "@Root:SystemTheme"; // stores preference for using system theme
+const THEME_PREFERENCE_KEY = "@Root:ThemePreference"; // stores preference for dark/light themes
+
+export const loadSystemThemePreference = async (): Promise<boolean> => {
+    try {
+        const response = await AsyncStorage.getItem(SYSTEM_THEME_KEY);
+        return response ? JSON.parse(response) : true; 
+    } catch (e) {
+        console.error("Error loading system theme preference: ", e); 
+        return true; 
+    }
+}
+
+export const saveSystemThemePreference = async (useSystemTheme: boolean) => {
+    try {
+        await AsyncStorage.setItem(SYSTEM_THEME_KEY, JSON.stringify(useSystemTheme)); 
+    } catch (e) {
+        console.error("Error saving system theme preference: ", e); 
+    }
+}
 
 export const loadThemePreference = async (): Promise<boolean> => {
     try {

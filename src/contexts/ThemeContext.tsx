@@ -1,7 +1,7 @@
 import { setStatusBarStyle } from 'expo-status-bar';
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
-import { loadThemePreference, saveThemePreference } from '../services/storage';
+import { loadSystemThemePreference, loadThemePreference, saveThemePreference } from '../services/storage';
 import { themes } from "../theme";
 
 export interface ThemeContextType {
@@ -18,6 +18,14 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         const loadTheme = async () => {
+            const systemThemePreference = await loadSystemThemePreference();
+
+            if (systemThemePreference) {
+                setIsDark(deviceScheme === 'dark'); 
+                setStatusBarStyle(deviceScheme === 'dark' ? 'light' : 'dark', true); 
+                return;
+            }
+
             const preference = await (async () =>  loadThemePreference())(); 
             if (preference) {
                 setIsDark(preference); 
