@@ -1,3 +1,4 @@
+import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Accelerometer } from 'expo-sensors';
 import { useEffect, useRef, useState } from "react";
@@ -105,6 +106,8 @@ export default function Timer() {
             return; 
         } 
 
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+
         setTimerRunning(false); 
         setIsResting(false); 
         if (mode !== 'infinity')
@@ -136,6 +139,8 @@ export default function Timer() {
 
     const handleInterrupt = () => {
         if (!timerRunning || isResting) return;
+
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
 
         if (mode === 'pomodoro') currentSession.current = totalSessions.current * 2 - 1;;
 
