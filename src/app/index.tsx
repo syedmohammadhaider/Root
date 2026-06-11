@@ -80,11 +80,11 @@ export default function Index() {
             <DropdownPicker
               items={[
                 { label: 'Classic', onPress: () => setTimerMode('classic') },
-                { label: 'Pomodoro', onPress: () => setTimerMode('pomodoro') },
+                // { label: 'Pomodoro', onPress: () => setTimerMode('pomodoro') },
                 { label: 'Infinity', onPress: () => setTimerMode('infinity') },
               ]}
               defaultLabel={timerMode.charAt(0).toUpperCase() + timerMode.slice(1)}
-              dialogPosition='top'
+              dialogPosition='bottom'
             />  
           
           </View>
@@ -93,7 +93,8 @@ export default function Index() {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: 15
+                gap: 15,
+                elevation: 5,
               }}
             >
               <TimeSelect 

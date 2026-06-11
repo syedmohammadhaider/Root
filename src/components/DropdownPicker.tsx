@@ -49,6 +49,7 @@ export default function DropdownPicker({items, defaultLabel, dialogPosition}: Dr
                 padding: 10, 
                 borderRadius: themes.spacing.borderRadius, 
                 backgroundColor: theme.cardBg, 
+                zIndex: 50, 
             }}
             onPress={() => setIsDialogOpen(!isDialogOpen)}
         >
@@ -68,9 +69,9 @@ export default function DropdownPicker({items, defaultLabel, dialogPosition}: Dr
                         borderRadius: themes.spacing.borderRadius, 
                         backgroundColor: theme.cardBg, 
                         position: 'absolute',
-                        [dialogPosition]: -125, 
+                        [dialogPosition]: '-400%', 
                         width : '100%',
-                        zIndex: 10,
+                        elevation: 50, 
                         overflow: 'hidden',
                         alignSelf: 'center',
                     }}    
