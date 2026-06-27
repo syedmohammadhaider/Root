@@ -1,11 +1,13 @@
+import MaskedView from '@react-native-masked-view/masked-view';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from "react";
-import { Keyboard, ToastAndroid, TouchableWithoutFeedback, View } from "react-native";
+import { ToastAndroid, View } from "react-native";
 import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { TimerPicker } from 'react-native-timer-picker';
 
 import IconButton from "../components/IconButton";
 import Text from "../components/Text";
-import TimeSelect from "../components/TimeSelect";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DropdownPicker from '../components/DropdownPicker';
@@ -18,7 +20,7 @@ export default function Index() {
   const { theme } = useTheme(); 
 
   const [ hours, setHours ] = useState<number>(0); 
-  const [ minutes, setMinutes ] = useState<number>(45); 
+  const [ minutes, setMinutes ] = useState<number>(30); 
   const [ seconds, setSeconds ] = useState<number>(0); 
   const [ restMinutes, setRestMinutes ] = useState<number>(5);
   const [ restSeconds, setRestSeconds ] = useState<number>(0);  
@@ -51,7 +53,6 @@ export default function Index() {
     .onEnd(() => router.push('/stats'));
   
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View
         style={{
           flex: 1,
@@ -89,71 +90,57 @@ export default function Index() {
           
           </View>
 
-            {(timerMode !== 'infinity') && (<View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 15,
-                elevation: 5,
-              }}
-            >
-              <TimeSelect 
-                chosenTime={hours}
-                maxValue={12}
-                onUpdate={setHours}
+          {timerMode !== 'infinity' && (
+            <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
+              <TimerPicker
+                initialValue={{ hours: hours, minutes: minutes, seconds: seconds }}
+                hideSeconds={false}
+                onDurationChange={(value) => {
+                  setHours(value.hours);
+                  setMinutes(value.minutes);
+                  setSeconds(value.seconds);
+                }}
+                padWithNItems={0}
+                LinearGradient={LinearGradient}
+                MaskedView={MaskedView}
+                styles={{
+                  theme: 'dark', 
+                  backgroundColor: theme.background,
+                  text: {
+                      fontFamily: themes.fonts.heading,
+                      color: theme.text, 
+                  },
+                  pickerItem: {
+                    fontSize: themes.fonts.sizes.heading,
+                    color: theme.text,
+                  },
+                  pickerLabel: {
+                    fontSize: 16,
+                    color: theme.text,
+                    opacity: 0.7,
+                  },
+                  pickerContainer: {
+                    borderRadius: themes.spacing.borderRadius,
+                    paddingHorizontal: 50,
+                  },
+                }}
               />
+            </View>
+          )}
 
-              <Text weight='bold' style={{ fontSize: themes.fonts.sizes.heading }}>:</Text>
+          {(timerMode === 'infinity') && 
+            (
+              <View>
+                <MaterialCommunityIcons name='infinity' size={72} color={theme.text} />
+              </View>
+            )
+          }
 
-              <TimeSelect 
-                chosenTime={minutes}
-                onUpdate={setMinutes}
-              />
-
-              <Text weight='bold' style={{ fontSize: themes.fonts.sizes.heading }}>:</Text>
-              
-              <TimeSelect 
-                chosenTime={seconds}
-                onUpdate={setSeconds}
-              />
-
-              {/* <Text weight='bold' style={{ fontSize: themes.fonts.sizes.heading }}>m</Text> */}
-            </View>)}
-
-            {(timerMode === 'pomodoro') && (<View style={{
-              flexDirection: 'row', 
-              justifyContent: 'center',
-            }}>
-              <TimeSelect
-                chosenTime={5}
-                maxValue={59}
-                onUpdate={setRestMinutes}
-                size='small'
-              />
-
-              <Text weight='bold' style={{ fontSize: themes.fonts.sizes.subHeading}}> : </Text>
-
-              <TimeSelect
-                chosenTime={0}
-                maxValue={59}
-                onUpdate={setRestSeconds}
-                size='small'
-              />
-            </View>)}
-
-            {(timerMode === 'infinity') && 
-              (
-                <View>
-                  <MaterialCommunityIcons name='infinity' size={72} color={theme.text} />
-                </View>
-              )
-            }
-
-            <IconButton 
-              iconName="play" 
-              type="primary" 
-              onPress={handleStart}
-            />
+          <IconButton 
+            iconName="play" 
+            type="primary" 
+            onPress={handleStart}
+          />
         </View>
         
         <GestureDetector 
@@ -164,7 +151,7 @@ export default function Index() {
             width: '100%',
             justifyContent: 'flex-end',
             alignItems: 'center',
-            height: '30%', 
+            height: '10%', 
             position: 'absolute', 
             bottom: 0,
             padding: 25, 
@@ -175,6 +162,5 @@ export default function Index() {
           </View>
         </GestureDetector>
       </View>
-    </TouchableWithoutFeedback>
   );
 }
