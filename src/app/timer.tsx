@@ -8,6 +8,7 @@ import IconButton from "../components/IconButton";
 import ProgressBar from "../components/ProgressBar";
 import Text from "../components/Text";
 import { useTheme } from "../contexts/ThemeContext";
+import formatTime from '../services/formatTime';
 import { saveData } from "../services/storage";
 import { themes } from "../theme";
 
@@ -45,14 +46,6 @@ export default function Timer() {
         setAccelSubscription(null); 
      };
 
-    const formatTime = (time: number) => {
-        const seconds = time % 60; 
-        const minutes = Math.floor(time / 60) % 60; 
-        const hours = Math.floor(time / 3600); 
-        
-        return `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
-    };
-
     const findPomodoroTime = (index: number) => {
         if (index + 1 < currentSession.current) 
             return 100;
@@ -88,15 +81,16 @@ export default function Timer() {
         }
 
         setTimerRunning(false); 
+        if (!interrupted) setIsFinished(true);
         // common finish logic
-        if (!interrupted) setIsFinished(true); 
         saveData({
             id: Date.now().toString(), 
             completedDuration: finalTime,
             totalDuration: +duration,
             timestamp: Date.now(),
             mode: (mode === 'classic' || mode === 'pomodoro' || mode === 'infinity') ? mode : 'infinity'
-        });
+        }); 
+
         console.log("FINISHED");
     };
 
@@ -144,7 +138,7 @@ export default function Timer() {
 
         if (mode === 'pomodoro') currentSession.current = totalSessions.current * 2 - 1;;
 
-        handleFinish(totalUnskippedTime, true); 
+        handleFinish(timeElapsed, true); 
     };
 
     const handleRetry = () => {
