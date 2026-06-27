@@ -5,7 +5,7 @@ import { useTheme } from '@/src/contexts/ThemeContext';
 import { themes } from '@/src/theme';
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 
 /* 
 * TODO: 
@@ -42,8 +42,8 @@ export default function About() {
                         alignItems: 'center',
                     }}
                 >
-                    {/* Add logo here */}
-                    <View style={{ height: 128, aspectRatio: 1, backgroundColor: theme.text, borderRadius: themes.spacing.borderRadius }} />
+                    <Image source={require('@/assets/images/Logo.png')} style={{ width: 128, height: 128, borderRadius: themes.spacing.borderRadius, borderWidth: 1, borderColor: theme.progressInactive }} />
+                    {/*<View style={{ height: 128, aspectRatio: 1, backgroundColor: theme.text, borderRadius: themes.spacing.borderRadius }} />*/}
                     <Text 
                         weight="bold"
                         style={{
