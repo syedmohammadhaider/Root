@@ -151,8 +151,8 @@ export default function Index() {
             width: '100%',
             justifyContent: 'flex-end',
             alignItems: 'center',
-            height: '10%', 
-            position: 'absolute', 
+            position: 'absolute',
+            height: '25%', 
             bottom: 0,
             padding: 25, 
           }}>
