@@ -26,7 +26,7 @@ export default function AppearanceSettings() {
                 title="appearance"
                 leftButton={<HeaderIconButton onPress={() => router.back()} icon='arrow-left' />}
             />
-            <ScrollView contentContainerStyle={{ paddingHorizontal: 20, gap: 5, }}>
+            <ScrollView contentContainerStyle={{ paddingHorizontal: 20, marginHorizontal: 10, gap: 5, backgroundColor: theme.cardBg, borderRadius: themes.spacing.borderRadius,}}>
                 
                 <View
                     style={{
@@ -34,8 +34,6 @@ export default function AppearanceSettings() {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         padding: 10, 
-                        backgroundColor: theme.cardBg, 
-                        borderRadius: themes.spacing.borderRadius,
                     }}
                 >
                     <Text
