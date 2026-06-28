@@ -94,7 +94,7 @@ export default function Index() {
             <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
               <TimerPicker
                 initialValue={{ hours: hours, minutes: minutes, seconds: seconds }}
-                hideSeconds={false}
+                hideSeconds={true}
                 onDurationChange={(value) => {
                   setHours(value.hours);
                   setMinutes(value.minutes);

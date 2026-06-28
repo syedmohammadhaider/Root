@@ -64,7 +64,7 @@ function LogCard({ mode, id, completedDuration, totalDuration, timestamp, onPres
             <View>
                 <Text 
                     weight='bold'
-                    style={{ fontSize: themes.fonts.sizes.heading }}
+                    style={{ fontSize: themes.fonts.sizes.subHeading }}
                 >
                     {formatTime(completedDuration)}
                 </Text>
@@ -88,7 +88,7 @@ function LogCard({ mode, id, completedDuration, totalDuration, timestamp, onPres
                         }}
                     >
                         {(completedDuration / totalDuration * 100).toFixed(2)}%
-                    </Text>
+                    </Text> 
                 )}
 
                 <Text>{new Date(timestamp).toLocaleDateString()}</Text>
