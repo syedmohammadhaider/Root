@@ -95,6 +95,7 @@ export default function Index() {
               <TimerPicker
                 initialValue={{ hours: hours, minutes: minutes, seconds: seconds }}
                 hideSeconds={true}
+                padHoursWithZero={true}
                 onDurationChange={(value) => {
                   setHours(value.hours);
                   setMinutes(value.minutes);
@@ -121,7 +122,8 @@ export default function Index() {
                   },
                   pickerContainer: {
                     borderRadius: themes.spacing.borderRadius,
-                    paddingHorizontal: 50,
+                    width: '60%',
+                    alignSelf: 'center',
                   },
                 }}
               />

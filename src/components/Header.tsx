@@ -1,8 +1,9 @@
 import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "../contexts/ThemeContext";
 import { themes } from "../theme";
 import Text from "./Text";
+
 
 type HeaderProps = {
     title: string; 
@@ -11,7 +12,8 @@ type HeaderProps = {
 }
 
 export default function Header({ title, leftButton, rightButton }: HeaderProps) {
-    const { theme } = useTheme(); 
+    const { theme } = useTheme();
+    const insets = useSafeAreaInsets();  
     return (
         <SafeAreaView
             style={{
@@ -20,7 +22,8 @@ export default function Header({ title, leftButton, rightButton }: HeaderProps) 
                 alignItems: 'center', 
                 flexDirection: 'row',
                 paddingHorizontal: 15, 
-                paddingVertical: 20,
+                paddingTop: (insets.top > 0) ? 0 : 20,
+                paddingBottom: 20, 
                 backgroundColor: theme.background,
             }}
         >
